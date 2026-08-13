@@ -22,23 +22,13 @@ const steps = [
   ['04', 'Launch', 'QA, deployment, analytics, handoff and post-launch iteration.'],
 ];
 
-const scenes = {
-  hero: 'https://prod.spline.design/UWoeqiir20o49Dah/scene.splinecode',
-  free: 'https://prod.spline.design/LEvjG3OETYd2GsRw/scene.splinecode',
-  manifesto: 'https://prod.spline.design/U9O6K7fXziMEU7Wu/scene.splinecode',
-  services: 'https://prod.spline.design/PBQQBw8bfXDhBo7w/scene.splinecode',
-  work: 'https://prod.spline.design/FVZWbQH2B6ndj9UU/scene.splinecode',
-  interaction: 'https://prod.spline.design/fJ2ptJKzT-sDkpfO/scene.splinecode',
-  process: 'https://prod.spline.design/HqdfCmOueigtautT/scene.splinecode',
-  tools: 'https://prod.spline.design/9951u9cumiw2Ehj8/scene.splinecode',
-  contact: 'https://prod.spline.design/UWoeqiir20o49Dah/scene.splinecode',
-};
+const BRAND_SCENE = 'https://prod.spline.design/PBQQBw8bfXDhBo7w/scene.splinecode';
 
-function SplineScene({ url, className = '', interactive = false }: { url: string; className?: string; interactive?: boolean }) {
+function BrandModel({ variant, interactive = false }: { variant: string; interactive?: boolean }) {
   return (
-    <div className={`externalScene ${interactive ? 'interactive' : ''} ${className}`}>
+    <div className={`externalScene brandScene brand-${variant} ${interactive ? 'interactive' : ''}`}>
       {createElement('spline-viewer' as any, {
-        url,
+        url: BRAND_SCENE,
         'events-target': 'global',
         background: 'rgba(0,0,0,0)',
       })}
@@ -72,14 +62,14 @@ export default function Home() {
       <h1>Animate<br/><span>anything.</span></h1>
       <p className="heroCopy">We build bold websites, apps and digital products where design, code, motion and 3D work as one system.</p>
       <a className="ghostDark" href="#services">Explore the studio <span>◎</span></a>
-      <SplineScene url={scenes.hero}/>
+      <BrandModel variant="hero"/>
     </section>
 
     <section className="scene scene-dark freeSection dark">
       <div className="shell sceneInner freeInner">
         <p className="eyebrow light">NO TEMPLATE ENERGY</p>
         <h2 className="splitTitle"><span>free</span><span>for all</span></h2>
-        <SplineScene url={scenes.free} className="interactive" interactive/>
+        <BrandModel variant="free" interactive/>
         <div className="rings" aria-hidden="true"><i/><i/><i/></div>
       </div>
     </section>
@@ -87,20 +77,20 @@ export default function Home() {
     <section className="scene scene-light manifesto shell" id="studio">
       <p className="eyebrow">DESIGN THAT MOVES</p>
       <div className="brokenType"><span>We design</span><span>digital</span><span>products</span><span>people</span><span>remember.</span></div>
-      <SplineScene url={scenes.manifesto}/>
+      <BrandModel variant="manifesto"/>
     </section>
 
     <section id="services" className="scene scene-dark services dark">
       <div className="shell sceneInner">
         <div className="sectionHead"><p className="eyebrow light">WHAT WE DO</p><h2>From idea<br/>to <span>impact.</span></h2></div>
-        <SplineScene url={scenes.services}/>
+        <BrandModel variant="services"/>
         <div className="serviceList">{services.map(([n,t,d]) => <article className="service" key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p><b>↗</b></article>)}</div>
       </div>
     </section>
 
     <section id="work" className="scene scene-light work shell">
       <div className="sectionHead"><p className="eyebrow">SELECTED WORK</p><h2>Made to<br/>get <span>noticed.</span></h2></div>
-      <SplineScene url={scenes.work}/>
+      <BrandModel variant="work"/>
       <div className="projectGrid">{projects.map((p) => <article className={`project ${p.cls}`} key={p.name}>
         <div className="projectVisual"><strong>{p.mark}</strong><div className="projectObject"><i/><b/><em/></div></div>
         <div className="projectMeta"><div><h3>{p.name}</h3><p>{p.type}</p></div><small>{p.tag}</small><span>View ↗</span></div>
@@ -112,14 +102,14 @@ export default function Home() {
         <p className="eyebrow light">INTERACTION LAB</p>
         <h2>Scroll controls<br/><span>motion too.</span></h2>
         <div className="glowPill"><span>drag · hover · scroll</span><i/></div>
-        <SplineScene url={scenes.interaction}/>
+        <BrandModel variant="interaction"/>
       </div>
     </section>
 
     <section className="scene scene-light process shell">
       <p className="eyebrow">HOW WE WORK</p>
       <div className="processLead"><h2>Small team.<br/>Big range.</h2><p>One visual system across strategy, product design, frontend, backend, mobile and 3D.</p></div>
-      <SplineScene url={scenes.process}/>
+      <BrandModel variant="process"/>
       <div className="steps">{steps.map(([n,t,d]) => <article key={n}><b>{n}</b><h3>{t}</h3><p>{d}</p></article>)}</div>
     </section>
 
@@ -127,7 +117,7 @@ export default function Home() {
       <div className="shell sceneInner">
         <p className="eyebrow light">INCLUDING ALL THE GOOD STUFF</p>
         <div className="toolType"><span>Next.js</span><span>React</span><span>GSAP</span><span>Spline</span><span>Three.js</span><span>Firebase</span></div>
-        <SplineScene url={scenes.tools}/>
+        <BrandModel variant="tools"/>
       </div>
     </section>
 
@@ -136,7 +126,7 @@ export default function Home() {
       <h2>Have an idea?<br/><span>Arc it.</span></h2>
       <p className="contactCopy">Tell us what you want to launch. We&apos;ll shape the product, visual direction and build.</p>
       <a className="pill big" href="mailto:hello@codearclabs.com">Start a project ↗</a>
-      <SplineScene url={scenes.contact}/>
+      <BrandModel variant="contact"/>
     </section>
 
     <footer className="footer shell"><a className="logo" href="#top">CodeArc Labs</a><p>Web · App · Product · 3D</p><p>© 2026 CodeArc Labs</p></footer>
