@@ -22,17 +22,28 @@ const steps = [
   ['04', 'Launch', 'QA, deployment, analytics, handoff and post-launch iteration.'],
 ];
 
-function SplineScene({ className = '' }: { className?: string }) {
-  return createElement('spline-viewer' as any, {
-    url: 'https://prod.spline.design/PBQQBw8bfXDhBo7w/scene.splinecode',
-    'events-target': 'global',
-    background: 'rgba(0,0,0,0)',
-    class: `splineScene ${className}`,
-  });
-}
+const scenes = {
+  hero: 'https://prod.spline.design/UWoeqiir20o49Dah/scene.splinecode',
+  free: 'https://prod.spline.design/LEvjG3OETYd2GsRw/scene.splinecode',
+  manifesto: 'https://prod.spline.design/U9O6K7fXziMEU7Wu/scene.splinecode',
+  services: 'https://prod.spline.design/PBQQBw8bfXDhBo7w/scene.splinecode',
+  work: 'https://prod.spline.design/FVZWbQH2B6ndj9UU/scene.splinecode',
+  interaction: 'https://prod.spline.design/fJ2ptJKzT-sDkpfO/scene.splinecode',
+  process: 'https://prod.spline.design/HqdfCmOueigtautT/scene.splinecode',
+  tools: 'https://prod.spline.design/9951u9cumiw2Ehj8/scene.splinecode',
+  contact: 'https://prod.spline.design/UWoeqiir20o49Dah/scene.splinecode',
+};
 
-function Model({ type }: { type: string }) {
-  return <div className={`model model-${type}`} aria-hidden="true"><i/><i/><i/><b/><em/></div>;
+function SplineScene({ url, className = '', interactive = false }: { url: string; className?: string; interactive?: boolean }) {
+  return (
+    <div className={`externalScene ${interactive ? 'interactive' : ''} ${className}`}>
+      {createElement('spline-viewer' as any, {
+        url,
+        'events-target': 'global',
+        background: 'rgba(0,0,0,0)',
+      })}
+    </div>
+  );
 }
 
 export default function Home() {
@@ -40,10 +51,10 @@ export default function Home() {
     const onMove = (e: MouseEvent) => {
       const x = e.clientX / innerWidth - .5;
       const y = e.clientY / innerHeight - .5;
-      document.documentElement.style.setProperty('--mx', `${x * 28}px`);
-      document.documentElement.style.setProperty('--my', `${y * 28}px`);
-      document.documentElement.style.setProperty('--rx', `${y * -7}deg`);
-      document.documentElement.style.setProperty('--ry', `${x * 9}deg`);
+      document.documentElement.style.setProperty('--mx', `${x * 20}px`);
+      document.documentElement.style.setProperty('--my', `${y * 20}px`);
+      document.documentElement.style.setProperty('--rx', `${y * -6}deg`);
+      document.documentElement.style.setProperty('--ry', `${x * 8}deg`);
     };
     addEventListener('mousemove', onMove);
     return () => removeEventListener('mousemove', onMove);
@@ -61,14 +72,14 @@ export default function Home() {
       <h1>Animate<br/><span>anything.</span></h1>
       <p className="heroCopy">We build bold websites, apps and digital products where design, code, motion and 3D work as one system.</p>
       <a className="ghostDark" href="#services">Explore the studio <span>◎</span></a>
-      <Model type="hero"/>
+      <SplineScene url={scenes.hero}/>
     </section>
 
     <section className="scene scene-dark freeSection dark">
       <div className="shell sceneInner freeInner">
         <p className="eyebrow light">NO TEMPLATE ENERGY</p>
         <h2 className="splitTitle"><span>free</span><span>for all</span></h2>
-        <div className="splineWrap"><SplineScene/></div>
+        <SplineScene url={scenes.free} className="interactive" interactive/>
         <div className="rings" aria-hidden="true"><i/><i/><i/></div>
       </div>
     </section>
@@ -76,20 +87,20 @@ export default function Home() {
     <section className="scene scene-light manifesto shell" id="studio">
       <p className="eyebrow">DESIGN THAT MOVES</p>
       <div className="brokenType"><span>We design</span><span>digital</span><span>products</span><span>people</span><span>remember.</span></div>
-      <Model type="type"/>
+      <SplineScene url={scenes.manifesto}/>
     </section>
 
     <section id="services" className="scene scene-dark services dark">
       <div className="shell sceneInner">
         <div className="sectionHead"><p className="eyebrow light">WHAT WE DO</p><h2>From idea<br/>to <span>impact.</span></h2></div>
-        <Model type="services"/>
+        <SplineScene url={scenes.services}/>
         <div className="serviceList">{services.map(([n,t,d]) => <article className="service" key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p><b>↗</b></article>)}</div>
       </div>
     </section>
 
     <section id="work" className="scene scene-light work shell">
       <div className="sectionHead"><p className="eyebrow">SELECTED WORK</p><h2>Made to<br/>get <span>noticed.</span></h2></div>
-      <Model type="work"/>
+      <SplineScene url={scenes.work}/>
       <div className="projectGrid">{projects.map((p) => <article className={`project ${p.cls}`} key={p.name}>
         <div className="projectVisual"><strong>{p.mark}</strong><div className="projectObject"><i/><b/><em/></div></div>
         <div className="projectMeta"><div><h3>{p.name}</h3><p>{p.type}</p></div><small>{p.tag}</small><span>View ↗</span></div>
@@ -101,14 +112,14 @@ export default function Home() {
         <p className="eyebrow light">INTERACTION LAB</p>
         <h2>Scroll controls<br/><span>motion too.</span></h2>
         <div className="glowPill"><span>drag · hover · scroll</span><i/></div>
-        <Model type="interaction"/>
+        <SplineScene url={scenes.interaction}/>
       </div>
     </section>
 
     <section className="scene scene-light process shell">
       <p className="eyebrow">HOW WE WORK</p>
       <div className="processLead"><h2>Small team.<br/>Big range.</h2><p>One visual system across strategy, product design, frontend, backend, mobile and 3D.</p></div>
-      <Model type="process"/>
+      <SplineScene url={scenes.process}/>
       <div className="steps">{steps.map(([n,t,d]) => <article key={n}><b>{n}</b><h3>{t}</h3><p>{d}</p></article>)}</div>
     </section>
 
@@ -116,7 +127,7 @@ export default function Home() {
       <div className="shell sceneInner">
         <p className="eyebrow light">INCLUDING ALL THE GOOD STUFF</p>
         <div className="toolType"><span>Next.js</span><span>React</span><span>GSAP</span><span>Spline</span><span>Three.js</span><span>Firebase</span></div>
-        <Model type="tools"/>
+        <SplineScene url={scenes.tools}/>
       </div>
     </section>
 
@@ -125,7 +136,7 @@ export default function Home() {
       <h2>Have an idea?<br/><span>Arc it.</span></h2>
       <p className="contactCopy">Tell us what you want to launch. We&apos;ll shape the product, visual direction and build.</p>
       <a className="pill big" href="mailto:hello@codearclabs.com">Start a project ↗</a>
-      <Model type="contact"/>
+      <SplineScene url={scenes.contact}/>
     </section>
 
     <footer className="footer shell"><a className="logo" href="#top">CodeArc Labs</a><p>Web · App · Product · 3D</p><p>© 2026 CodeArc Labs</p></footer>
